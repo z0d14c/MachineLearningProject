@@ -33,7 +33,18 @@ def readAttributes(attrFilePath):
         attributes.append(attr)
     return attributes
 
-# # return data filtered by year, aka data[0]
-# # data = array of arrays
-# def filterByYear(data):
-#
+# return data filtered by year, aka data[0]
+# data = array of arrays
+def filterByYear(data, classdata):
+    dataDict = {}
+    classDict = {}
+    x = 0
+    for item in data:
+        if str(item[0]) not in dataDict:
+            dataDict[str(item[0])] = []
+        if str(item[0]) not in classDict:
+            classDict[str(item[0])] = []
+        dataDict[str(item[0])].append(item)
+        classDict[str(item[0])].append(classdata[x])
+    x += 1
+    return dataDict, classDict
