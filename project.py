@@ -17,13 +17,16 @@ trainingclasses = np.array(trainingclasses)
 
 classifier = GaussianNB()
 classifier.fit(trainingdata, trainingclasses)
-predictedVals = classifier.predict(trainingdata)
-
-correct = 0
-x = 0
+# predict and write to prediction file TODO: make this reusable/modular/whatever
+predictedVals = classifier.predict(testdata)
+predictionfile = open("prediction.txt", "w")
 for val in predictedVals:
-    if val == trainingclasses[x]:
-        correct += 1
-    x += 1
-print((correct/len(trainingdata)) * 100)
+    predictionfile.write(str(int(val)) + "\n")
+# correct = 0
+# x = 0
+# for val in predictedVals:
+#     if val == trainingclasses[x]:
+#         correct += 1
+#     x += 1
+# print((correct/len(trainingdata)) * 100)
 # attributes = util.readAttributes("data/attr.txt")
