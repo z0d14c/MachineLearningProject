@@ -18,6 +18,7 @@ trainingclasses = np.array(trainingclasses)
 classifier = GaussianNB()
 classifier.fit(trainingdata, trainingclasses)
 predictedVals = classifier.predict(trainingdata)
+
 correct = 0
 x = 0
 for val in predictedVals:

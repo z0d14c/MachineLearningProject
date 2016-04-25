@@ -32,3 +32,8 @@ def readAttributes(attrFilePath):
         attr = line.split(":")[0]
         attributes.append(attr)
     return attributes
+
+# # return data filtered by year, aka data[0]
+# # data = array of arrays
+# def filterByYear(data):
+#
