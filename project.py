@@ -13,7 +13,6 @@ args = sys.argv
 (dataDict, classDict) = util.filterByYear(trainingdata, trainingclasses)
 classifierDict = {}
 for key in dataDict.keys():
-    print("key ", key)
     classifierDict[key] = GaussianNB().fit(np.array(dataDict[key]), np.array(classDict[key]))
 # trainingdata = np.array(trainingdata)
 # trainingclasses = np.array(trainingclasses)
@@ -29,9 +28,9 @@ for key in classifierDict.keys():
     x = 0
     predictedVals = classifierDict[key].predict(np.array(dataDict[key]))
     for row in predictedVals:
-            print(row)
-        # correct += 1
-        # x += 1
-# print((correct/len(trainingdata)) * 100)
+        if dataDict[key][x][len(trainingdata[0]) - 1] == classDict[key][x]:
+            correct += 1
+        x += 1
+print((correct/len(trainingdata)) * 100)
 
 # attributes = util.readAttributes("data/attr.txt")

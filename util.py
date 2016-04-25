@@ -46,5 +46,5 @@ def filterByYear(data, classdata):
             classDict[str(item[0])] = []
         dataDict[str(item[0])].append(item)
         classDict[str(item[0])].append(classdata[x])
-    x += 1
+        x += 1
     return dataDict, classDict
