@@ -33,7 +33,19 @@ def readAttributes(attrFilePath):
         attributes.append(attr)
     return attributes
 
-# # return data filtered by year, aka data[0]
-# # data = array of arrays
-# def filterByYear(data):
-#
+# write predictions to a file (for turning in)
+def writePredictionsToFile(predictedvalues):
+    predictionfile = open("prediction.txt", "w")
+    for val in predictedvalues:
+        predictionfile.write(str(int(val)) + "\n")
+
+# print accuracy percentage
+def printAccuracy(expectedValues, actualValues):
+    correct = 0
+    x = 0
+    total = len(expectedValues)
+    for val in expectedValues:
+        if val == actualValues[x]:
+            correct += 1
+        x += 1
+    print((correct / total) * 100)
