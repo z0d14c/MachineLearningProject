@@ -48,4 +48,6 @@ def printAccuracy(expectedValues, actualValues):
         if val == actualValues[x]:
             correct += 1
         x += 1
-    print((correct / total) * 100)
+    accuracy = (correct / total) * 100
+    print(str(accuracy) + "% accurate")
+    return accuracy
