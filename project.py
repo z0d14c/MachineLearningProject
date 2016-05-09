@@ -15,8 +15,10 @@ args = sys.argv
 # training/testdata will NOT have class value,  i.e. it will only have the other features
 (trainingdata, trainingclasses) = util.readData(args[1])
 (testdata, testclasses) = util.readData(args[2])
-# trainingdata = np.array(trainingdata)
-# trainingclasses = np.array(trainingclasses)
+#####IMPORTANT NOTE######
+# I HAVE COMMENTED OUT THE FOLLOWING BECAUSE IT IS TIME INTENSIVE
+# BUT IT SHOWS MY APPROACH IN FEATURE SELECTION
+##### BEGIN FEATURE SELECTION PROCESS (UNCOMMENT AFTER THIS TO USE)
 classAccuracyArray = [] #array of removed attrs along with their accuracy when removed
 for x in range(0, len(trainingdata[0])):
     trainingdatacopy = np.empty_like(trainingdata)
@@ -39,18 +41,22 @@ for x in range(0, len(trainingdata[0])):
 # now to build our actual learner after removing bad attributes classes
 # find which attributes were least effective at predictions
 sortedClassAccuracy = sorted(classAccuracyArray, key=itemgetter("accuracy"))
-atrributesToRemove = []
-for x in range(0, 10):
+print("sorted class accuracy dict list")
+print(sortedClassAccuracy)
+attributesToRemove = []
+for x in range(0, 20):
     y = -1 - x
-    atrributesToRemove.append(sortedClassAccuracy[y]['attributeindex'])
-atrributesToRemove = sorted(atrributesToRemove, reverse=True)
+    attributesToRemove.append(sortedClassAccuracy[y]['attributeindex'])
+attributesToRemove = sorted(attributesToRemove, reverse=True)
+##### END OF FEATURE SELECTION PROCESS (UNCOMMENT BEFORE THIS TO USE)
+# attributesToRemove = [199, 195, 194, 190, 189, 188, 171, 170, 169, 3]
 print("attr to remove ")
-print(atrributesToRemove)
+print(attributesToRemove)
 # remove them and then train
 trainingdatacopy = np.empty_like(trainingdata)
 trainingdatacopy = trainingdata[:]
 for index, val in enumerate(trainingdatacopy):
-    for removedClassIndex in atrributesToRemove:
+    for removedClassIndex in attributesToRemove:
         trainingdatacopy[index] = list(trainingdatacopy[index])
         del trainingdatacopy[index][removedClassIndex]
 trainingclassescopy = np.empty_like(trainingclasses)
@@ -68,8 +74,12 @@ acc = util.printAccuracy(predictedVals, trainingclassescopy)
 print("WRITING TEST PREDICTIONS TO FILE")
 classifier = GaussianNB()
 classifier.fit(trainingdatacopy, trainingclassescopy)
-testclassescopy = np.empty_like(testclasses)
-testclassescopy[:] = testclasses
-predictedTestVals = classifier.predict(testclassescopy)
+testdatacopy = []
+testdatacopy[:] = testdata
+for index, val in enumerate(testdatacopy):
+    for removedClassIndex in attributesToRemove:
+        testdatacopy[index] = list(testdatacopy[index])
+        del testdatacopy[index][removedClassIndex]
+predictedTestVals = classifier.predict(testdatacopy)
 util.writePredictionsToFile(predictedTestVals)
 
